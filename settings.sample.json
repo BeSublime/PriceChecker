@@ -1,0 +1,8 @@
+{
+  "apis": {
+    "pushover": {
+      "token" : "",
+      "user"  : ""
+    }
+  }
+}

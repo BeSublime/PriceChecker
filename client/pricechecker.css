@@ -1,0 +1,18 @@
+.navbar .brand, h2 {
+  color: #79bf7d;
+  font-weight: 500;
+}
+td {
+  min-width: 200px;
+}
+
+i.remove {
+  display: none;
+  position: relative;
+  right: -18px;
+  top: 2px;
+  cursor: pointer;
+}
+tr:hover i.remove {
+  display: inline-block;
+}

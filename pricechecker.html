@@ -1,5 +1,5 @@
 <head>
-  <title>pricechecker 1</title>
+  <title>PriceChecker (working title)</title>
   <style>
     body {
       padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -33,7 +33,20 @@
 
 <template name="main">
   <div class="container">
-    <h1>Hello World!</h1>
+  
+    {{#if notification}}
+    {{#with notification}}
+    <div class="alert alert-{{type}}">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      {{content}}&nbsp;
+      {{#if undo}}
+      <a href="#" class="undo">Undo.</a>
+      {{/if}}
+    </div>
+    {{/with}}
+    {{/if}}
+  
+    <h2>Item List</h2>
     
     {{! TODO: "Check all" button }}
     <table class="table table-bordered table-hover">
@@ -46,13 +59,97 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Deerskin Driving Gloves</td>
-          <td>{{value}}</td>
-          <td>3/4/2013 - 5:35pm</td>
-          <td><input type="button" value="Check Price/Inventory" /></td>
+        {{#each items}}
+        <tr id="{{_id}}" class="item">
+          <td>
+            <a href="{{url}}" target="_blank">{{name}}</a>
+          </td>
+          <td>
+            {{#if lastValue}}
+              {{lastValue}}
+            {{else}}
+              Unable to get value. Something on the <a href="{{url}}" target="_blank">item's page</a> may have changed.
+            {{/if}}
+          </td>
+          <td>
+            {{lastDate}}
+          </td>
+          <td>
+            <input type="button" class="checkvalue" value="Check Price/Inventory" />
+            <i id="{{_id}}" class="icon-minus-sign remove"></i>
+          </td>
         </tr>
+        
+        {{#if showDetails}}
+        <tr class="itemdetails">
+          <td colspan="4">
+            <h3>{{name}}</h3>
+            <p>
+              <code>{{url}}</code>
+            </p>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Value</th>
+                  <th>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each recentValues}}
+                <tr>
+                  <td>{{value}}</td>
+                  <td>{{date}}</td>
+                </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        {{/if}}
+        
+        {{/each}}
       </tbody>
     </table>
+    
+      <fieldset>
+      <legend>Add a New Item</legend>
+        <div class="row">
+          <div class="span4">
+            <label for="name" class="">Item Name:</label>
+            <input id="name" name="name" class="span4" type="text">
+          </div>
+          <div class="span3">
+            <label for="name"><abbr title="#itemPriceContainer, for example.">Unique Selector</abbr>:</label>
+            <input class="span3" id="selector" name="selector" type="text">
+          </div>
+        </div>
+        <div class="controls controls-row">
+          <label for="name">URL:</label>
+          <input class="span7" id="url" name="url" type="text">
+        </div>
+        <div class="controls controls-row">
+          <button id="submit" class="btn">Submit</button>
+        </div>
+      </fieldset>
+    
+    <div class="row" style="margin-top: 20px">
+      <div id="bookmark" class="span6 well">
+        <h4>Bookmarklet</h4>
+        <p>
+          Drag this button to your toolbar to make adding items to your watch list super easy. Just 
+          click the bookmark in your toolbar while browsing a page containing an element you'd like
+          to monitor. Click on the element, confirm that it's the correct one, and you'll be 
+          taken to your watch list with the new item added.
+        </p>
+        <a class="btn" 
+           href="javascript:var i,s,ss=['{{siteUrl}}superselector.js'/*,'http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js'*/];for(i=0;i!=ss.length;i++){s=document.createElement('script');s.src=ss[i];document.body.appendChild(s);}void(0);">
+          Watch Price</a>
+      </div>
+    </div>
+    
   </div>
+  
+  <script type="text/javascript">
+  	
+	</script>
 </template>
