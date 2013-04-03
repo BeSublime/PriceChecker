@@ -12,6 +12,7 @@ Right now, the only required dependency is [cheerio](https://github.com/MatthewM
 Required Packages
 -----------------
 She just needs the following packages to fly:
+
     http
     jquery
     bootstrap
